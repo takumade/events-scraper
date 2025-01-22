@@ -56,7 +56,7 @@ export const scrapeEvents = async ({ browser, retryCount }) => {
             (elements) => {
               return elements.map((element) => {
                 const link =  element.querySelector("a.event-card-link")?.href || "N/A";
-                const image =  element.querySelector("a.event-card-image")?.src || "N/A";
+                const image =  element.querySelector("img.event-card-image")?.src || "N/A";
                 const title = element.querySelector("h3")?.innerText || "N/A";
                 const location = element.querySelector("p.event-card__clamp-line--one")?.innerText || "N/A";
                 const date =  element.querySelector(".event-card-details p")?.innerText || "N/A";
@@ -98,41 +98,52 @@ export const scrapeEvents = async ({ browser, retryCount }) => {
 
 
   const scrapeAllevents = async ({ browser, retryCount }) => {
-    try {
+     try {
         const page = await browser.newPage();
+
+        let eventCardSelector = '.event-card-parent li.event-card event-card-link'
+        let showMoreButton = '#show-more-events'
     
         try {
-          await page.goto("https://www.airbnb.com/", { waitUntil: "load" });
+          await page.goto("https://allevents.in/harare/all?ref=new-cityhome-popular", { waitUntil: "load" });
     
-          await page.waitForSelector('[itemprop="itemListElement"]', {
+          await page.waitForSelector(eventCardSelector, {
             timeout: 10000,
           });
+
+          // Click the show more button until it doesn't exist
+            while (await page.$(showMoreButton)){
+                await page.click(showMoreButton);
+                await page.waitForTimeout(1000);
+            }
     
-          const listings = await page.$$eval(
-            '[itemprop="itemListElement"]',
+          const events = await page.$$eval(
+           eventCardSelector,
             (elements) => {
-              return elements.slice(0, 10).map((element) => {
-                const title =
-                  element.querySelector(".t1jojoys")?.innerText || "N/A";
-                const price =
-                  element.querySelector("._11jcbg2")?.innerText || "N/A";
-                const link = element.querySelector("a")?.href || "N/A";
-                return { title, price, link };
+              return elements.map((element) => {
+                const link =  element.querySelector(".title a")?.href || "N/A";
+                const image =  element.querySelector("img.banner-img")?.src || "N/A";
+                const title = element.querySelector("h3")?.innerText || "N/A";
+                const location = element.querySelector("div.subtitle")?.innerText || "N/A";
+                const date =  element.querySelector("div.date")?.innerText || "N/A";
+
+     
+                return { link, image, title, date, location};
               });
             }
           );
     
-          const validListings = listings.filter(validateListing);
+          const validEvents = events.filter(validateEvent);
     
-          if (validListings.length === 0) {
-            throw new Error("No listings found");
+          if (validEvents.length === 0) {
+            throw new Error("No events found");
           }
     
-          return validListings;
+          return validEvents;
         } catch (pageError) {
           if (retryCount < MAX_RETRIES) {
             console.log(`Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
-            return await scrapeListings(retryCount + 1);
+            return await scrapeEventbrite(retryCount + 1);
           } else {
             throw new Error(
               `Failed to scrape data after ${MAX_RETRIES} attempts: ${pageError.message}`
@@ -148,6 +159,7 @@ export const scrapeEvents = async ({ browser, retryCount }) => {
           await browser.close();
         }
       }
+
 
   }
 
