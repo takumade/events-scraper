@@ -1,7 +1,7 @@
 import express from "express";
 import { chromium } from "playwright";
 import cors from "cors";
-import { scrapeListings } from "./utils/scraper.js";
+import { scrapeEvents } from "./utils/scraper.js";
 
 const app = express();
 const PORT = 5001;
@@ -12,8 +12,8 @@ app.get("/scrape", async (req, res) => {
   let browser;
   try {
     browser = await chromium.launch();
-    const listings = await scrapeListings({ browser, retryCount: 3 });
-    res.json(listings);
+    const events = await scrapeEvents({ browser, retryCount: 3 });
+    res.json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
