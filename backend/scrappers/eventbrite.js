@@ -1,4 +1,4 @@
-import { validateEvent } from "../utils/general";
+import { validateEvent } from "../utils/general.js";
 
 
 const scrapeEventbrite = async ({ browser, retryCount }) => {

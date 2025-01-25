@@ -3,8 +3,8 @@
 import sites from "./sites.js"
 
 
-const scrapeAllevents = require("./scrappers/allevents.js");
-const scrapeEventbrite = require("./scrappers/eventbrite.js");
+import scrapeAllevents from "./scrappers/allevents.js";
+import scrapeEventbrite from "./scrappers/eventbrite.js";
 
 
 
