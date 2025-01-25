@@ -3,6 +3,7 @@ import { chromium } from "playwright";
 import cors from "cors";
 import { scrapeEvents } from "./utils/scraper.js";
 
+
 const app = express();
 const PORT = 5001;
 
