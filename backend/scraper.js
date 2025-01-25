@@ -1,8 +1,6 @@
 // scraper.js
 
-import sites from "../sites.js";
-
-
+import sites from "./sites.js"
 
 
 const scrapeAllevents = require("./scrappers/allevents.js");

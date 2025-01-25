@@ -1,7 +1,7 @@
 import express from "express";
 import { chromium } from "playwright";
 import cors from "cors";
-import { scrapeEvents } from "./utils/scraper.js";
+import { scrapeEvents } from "./scraper.js";
 
 
 const app = express();
