@@ -9,6 +9,12 @@ This is a simple scrapper that fetches events from different events website. The
 ```bash
 pnpm install
 ```
+
+3. Download playwright browsers
+```bash
+pnpm exec playwright install  
+```
+
 3. Run the server
 ```bash
 pnpm start
