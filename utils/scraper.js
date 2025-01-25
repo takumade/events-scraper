@@ -1,8 +1,8 @@
 // scraper.js
 
-import sitesConfig from "../sites.config";
-import scrapeAllevents from "./scrappers/allevents";
-import scrapeEventbrite from "./scrappers/eventbrite";
+const sitesConfig  = require("../sites.config");
+const scrapeAllevents = require("./scrappers/allevents");
+const scrapeEventbrite = require("./scrappers/eventbrite");
 
 export const scrapeEvents = async ({ browser, retryCount }) => {
     try {
