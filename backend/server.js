@@ -17,6 +17,11 @@ app.get("/scrape", async (req, res) => {
 
    
     const events = await scrapeEvents(browser, retryCount);
+
+    if  (browser){
+      await browser.close();
+      }
+
     res.json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
