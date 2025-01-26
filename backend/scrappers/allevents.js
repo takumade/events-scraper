@@ -1,25 +1,26 @@
 import { validateEvent } from "../utils/general.js";
 
 
-const scrapeAllevents = async ( browser, retryCount ) => {
+const scrapeAllevents = async ( page, retryCount ) => {
     try {
-       const page = await browser.newPage();
+       
 
-       let eventCardSelector = '.event-card-parent li.event-card event-card-link'
-       let showMoreButton = '#show-more-events'
+       let eventCardSelector = '.event-card-parent li.event-card'
+       let showMoreButton = '#show_more_events'
    
        try {
          await page.goto("https://allevents.in/harare/all?ref=new-cityhome-popular", { waitUntil: "load" });
    
          await page.waitForSelector(eventCardSelector, {
-           timeout: 10000,
+           timeout: 20000,
          });
 
          // Click the show more button until it doesn't exist
-           while (await page.$(showMoreButton)){
-               await page.click(showMoreButton);
-               await page.waitForTimeout(1000);
-           }
+          // while (await page.$(showMoreButton)){
+          //      console.log("Clicking show more button");
+          //      await page.click(showMoreButton);
+          //      await page.waitForTimeout(1000);
+          //  }
    
          const events = await page.$$eval(
           eventCardSelector,
@@ -45,23 +46,18 @@ const scrapeAllevents = async ( browser, retryCount ) => {
    
          return validEvents;
        } catch (pageError) {
-         if (retryCount < MAX_RETRIES) {
-           console.log(`Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
+         if (retryCount < 3) {
+           console.log(`Retrying... (${retryCount + 1}/${3})`);
            return await scrapeEventbrite(retryCount + 1);
          } else {
            throw new Error(
-             `Failed to scrape data after ${MAX_RETRIES} attempts: ${pageError.message}`
+             `Failed to scrape data after ${3} attempts: ${pageError.message}`
            );
          }
-       } finally {
-         await page.close();
        }
      } catch (browserError) {
+      console.log(browserError)
        throw new Error(`Failed to launch browser: ${browserError.message}`);
-     } finally {
-       if (browser) {
-         await browser.close();
-       }
      }
 
 

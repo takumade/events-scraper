@@ -1,9 +1,8 @@
 import { validateEvent } from "../utils/general.js";
 
 
-const scrapeEventbrite = async (browser, retryCount ) => {
+const scrapeEventbrite = async (page, retryCount ) => {
     try {
-        const page = await browser.newPage();
 
         let eventCardSelector = '[data-event-bucket-label="Events near Harare in Harare"] .discover-vertical-event-card'
     
@@ -38,23 +37,17 @@ const scrapeEventbrite = async (browser, retryCount ) => {
     
           return validEvents;
         } catch (pageError) {
-          if (retryCount < MAX_RETRIES) {
-            console.log(`Retrying... (${retryCount + 1}/${MAX_RETRIES})`);
+          if (retryCount < 3) {
+            console.log(`Retrying... (${retryCount + 1}/${3})`);
             return await scrapeEventbrite(retryCount + 1);
           } else {
             throw new Error(
-              `Failed to scrape data after ${MAX_RETRIES} attempts: ${pageError.message}`
+              `Failed to scrape data after ${3} attempts: ${pageError.message}`
             );
           }
-        } finally {
-          await page.close();
         }
       } catch (browserError) {
         throw new Error(`Failed to launch browser: ${browserError.message}`);
-      } finally {
-        if (browser) {
-          await browser.close();
-        }
       }
 
   }
