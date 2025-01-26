@@ -1,7 +1,7 @@
 import { validateEvent } from "../utils/general.js";
 
 
-const scrapeEventbrite = async ({ browser, retryCount }) => {
+const scrapeEventbrite = async (browser, retryCount ) => {
     try {
         const page = await browser.newPage();
 
