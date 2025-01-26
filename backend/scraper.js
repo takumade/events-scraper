@@ -11,7 +11,7 @@ import scrapeEventbrite from "./scrappers/eventbrite.js";
 export const scrapeEvents = async ({ browser, retryCount }) => {
     try {
 
-        allEvents = []
+        let allEvents = []
 
         for (const site of sites){
             if (site.startsWith("https://www.eventbrite.com")){
