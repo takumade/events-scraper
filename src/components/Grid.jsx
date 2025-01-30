@@ -8,6 +8,8 @@ function Grid({ events }) {
           key={index}
           className="border border-gray-300 rounded-lg p-4 text-center"
         >
+
+            <img className="rounded-lg h-52 w-full" src={event.image} alt={event.title}/>
           <h3 className="text-blue-950 text-lg font-semibold mb-2">
             {event.title}
           </h3>
