@@ -8,7 +8,7 @@ import Grid from "./components/Grid";
 import Loader from "./components/Loader";
 
 function App() {
-  const [events, setEvents] = useLocalStorage("properties",  [
+  const [events, setEvents] = useState([
     {
       link: 'https://www.eventbrite.co.uk/e/harare-21-day-kundalini-energy-awakening-meditation-live-recorded-tickets-1078605029679?aff=ebdssbcitybrowse',
       image: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F865890869%2F647919780083%2F1%2Foriginal.20241003-160334?crop=focalpoint&fit=crop&w=512&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=944a2e9796b91ea1031f0e2e1bf62957',
@@ -196,24 +196,24 @@ function App() {
   const [error, setError] = useState("");
 
   const fetchEvents = async () => {
-    setLoading(true);
-    setError("");
-    setEvents([]);
+    // setLoading(true);
+    // setError("");
+    // setEvents([]);
 
-    try {
-      const response = await axios.get("http://localhost:5001/scrape");
-      if (response.data.length === 0) {
-        throw new Error("No events found");
-      }
-      setEvents(response.data);
-    } catch (err) {
-      setError(
-        err.response?.data?.error ||
-          "Failed to fetch events. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    //   const response = await axios.get("http://localhost:5001/scrape");
+    //   if (response.data.length === 0) {
+    //     throw new Error("No events found");
+    //   }
+    //   setEvents(response.data);
+    // } catch (err) {
+    //   setError(
+    //     err.response?.data?.error ||
+    //       "Failed to fetch events. Please try again."
+    //   );
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
@@ -222,10 +222,12 @@ function App() {
     // }
   }, []);
 
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <Header />
-      <RefreshButton callback={fetchListings} loading={loading} />
+      <RefreshButton callback={fetchEvents} loading={loading} />
       <main className="flex flex-col items-center justify-center flex-1 w-full px-4 relative">
         {error && <p className="text-red-500">{error}</p>}
         {loading ? <Loader /> : <Grid events={events} />}
