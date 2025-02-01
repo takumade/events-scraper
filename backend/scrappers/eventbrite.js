@@ -1,4 +1,3 @@
-import { validateEvent } from "../utils/general.js";
 
 
 const scrapeEventbrite = async (page, retryCount ) => {
@@ -29,13 +28,7 @@ const scrapeEventbrite = async (page, retryCount ) => {
             }
           );
     
-          const validEvents = events.filter(validateEvent);
-    
-          if (validEvents.length === 0) {
-            throw new Error("No events found");
-          }
-    
-          return validEvents;
+          return events
         } catch (pageError) {
           if (retryCount < 3) {
             console.log(`Retrying... (${retryCount + 1}/${3})`);
