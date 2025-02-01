@@ -19,8 +19,8 @@ const scrapeEventbrite = async (page, retryCount ) => {
                 const link =  element.querySelector("a.event-card-link")?.href || "N/A";
                 const image =  element.querySelector("img.event-card-image")?.src || "N/A";
                 const title = element.querySelector("h3")?.innerText || "N/A";
-                const location = element.querySelector("p.event-card__clamp-line--one")?.innerText || "N/A";
-                const date =  element.querySelector(".event-card-details p")?.innerText || "N/A";
+                const location = element.querySelectorAll("p.event-card__clamp-line--one")[1]?.innerText || "N/A";
+                const date = element.querySelectorAll("p.event-card__clamp-line--one")[0]?.innerText || "N/A";
 
      
                 return { link, image, title, date, location};
