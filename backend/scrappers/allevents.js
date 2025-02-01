@@ -25,7 +25,7 @@ const scrapeAllevents = async ( page, retryCount ) => {
            (elements) => {
              return elements.map((element) => {
                const link =  element.querySelector(".title a")?.href || "N/A";
-               const image =  element.querySelector("img.banner-img")?.src || "N/A";
+               const image =  element.querySelector("img.banner-img")?.getAttribute('data-src') || "N/A";
                const title = element.querySelector("h3")?.innerText || "N/A";
                const location = element.querySelector("div.subtitle")?.innerText || "N/A";
                const date =  element.querySelector("div.date")?.innerText || "N/A";
