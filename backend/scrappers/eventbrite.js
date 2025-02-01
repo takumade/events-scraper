@@ -4,10 +4,10 @@ import { validateEvent } from "../utils/general.js";
 const scrapeEventbrite = async (page, retryCount ) => {
     try {
 
-        let eventCardSelector = '[data-event-bucket-label="Events near Harare in Harare"] .discover-vertical-event-card'
+        let eventCardSelector = '.search-results-panel-content__events section'
     
         try {
-          await page.goto("https://www.eventbrite.com/d/zimbabwe--harare/events/", { waitUntil: "load" });
+          await page.goto("https://www.eventbrite.com/d/zimbabwe--harare/all-events/", { waitUntil: "load" });
     
           await page.waitForSelector(eventCardSelector, {
             timeout: 10000,
