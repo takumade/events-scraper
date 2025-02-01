@@ -1,5 +1,3 @@
-import { validateEvent } from "../utils/general.js";
-
 
 const scrapeAllevents = async ( page, retryCount ) => {
     try {
@@ -38,11 +36,7 @@ const scrapeAllevents = async ( page, retryCount ) => {
            }
          );
    
-         const validEvents = events.filter(validateEvent);
-   
-         if (validEvents.length === 0) {
-           throw new Error("No events found");
-         }
+         return events;
    
          return validEvents;
        } catch (pageError) {
