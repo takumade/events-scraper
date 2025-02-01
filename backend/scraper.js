@@ -4,6 +4,9 @@ import sites from "./sites.js";
 
 import scrapeAllevents from "./scrappers/allevents.js";
 import scrapeEventbrite from "./scrappers/eventbrite.js";
+import { cleanEvents } from "./utils/general.js";
+
+
 
 export const scrapeEvents = async (browser, retryCount) => {
   try {
@@ -21,13 +24,11 @@ export const scrapeEvents = async (browser, retryCount) => {
       } else {
         throw new Error(`Unsupported site: ${site}`);
       }
-
-      console.log("All events: ", allEvents);
     }
 
     
 
-    return allEvents;
+    return cleanEvents(allEvents);
   } catch (error) {
     console.log(error);
   }
